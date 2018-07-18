@@ -1,0 +1,12 @@
+---
+- set_fact:
+    go_tarball_url: "{{ go_storage_url }}{{ go_package_name }}"
+
+- set_fact:
+    go_tarball_checksum: "sha256:{{ lookup('url', go_tarball_url + '.sha256', validate_certs=False) }}"
+
+- name: Download the Go tarball
+  get_url:
+    url: "{{ go_tarball_url }}"
+    dest: ~/{{ go_package_name }}
+    checksum: "{{ go_tarball_checksum }}"

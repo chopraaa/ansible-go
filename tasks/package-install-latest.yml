@@ -1,0 +1,19 @@
+---
+- name: "Get list of releases"
+  uri:
+    url: https://api.github.com/repos/golang/go/git/refs/tags
+    return_content: yes
+  register: this
+
+- name: "Get the package version"
+  set_fact:
+    package_version: "{{ item.ref.split('refs/tags/go')[1] }}"
+  when: item.ref | regex_search('refs/tags/go([0-9.]+)')
+  with_items: "{{ this.content }}"
+  no_log: True
+
+- name: "Set the package name"
+  set_fact:
+    go_package_name: go{{ package_version }}.{{ go_os }}-{{ supported_arch[current_arch] }}.tar.gz
+
+- include_tasks: package-installation.yml

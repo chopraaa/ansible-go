@@ -1,2 +1,31 @@
 ---
-# tasks file for ansible-go
+- set_fact:
+    current_arch: "{{ hostvars[inventory_hostname].ansible_architecture }}"
+
+# Check if architecture of remote host is supported by ansible-go
+- name: "Check if role supports {{ current_arch }}"
+  block:
+    - name: "Checking if {{ current_arch }} is valid for remote host"
+      assert:
+        that:
+          - current_arch in supported_arch
+  rescue:
+    - fail:
+        msg: "ansible-go does not support {{ current_arch }}"
+
+# Check if distribution is supported
+- name: "Check if role supports {{ ansible_os_family }}"
+  block:
+    - name: "Checking if {{ ansible_os_family }} is valid for remote host"
+      assert:
+        that:
+          - ansible_os_family in supported_os
+  rescue:
+    - fail:
+        msg: "ansible-go does not support {{ ansible_os_family }}"
+
+- set_fact:
+    go_os: linux
+  when: ansible_os_family in ['Debian', 'RedHat']
+
+- include_tasks: "package-install.yml"

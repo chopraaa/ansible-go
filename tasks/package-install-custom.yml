@@ -1,0 +1,3 @@
+# - name: "Check if {{ go_version }} is valid"
+#   block:
+#     - name: "Getting checksum for {{ go_version }} "

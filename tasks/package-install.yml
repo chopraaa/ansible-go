@@ -1,0 +1,9 @@
+---
+- set_fact:
+    go_version: stable
+  when: go_version is undefined
+
+- include_tasks: "{{ item }}"
+  with_first_found:
+    - package-install-{{ go_version }}.yml
+    - package-install-custom.yml
