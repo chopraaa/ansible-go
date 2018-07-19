@@ -5,5 +5,5 @@
 
 - include_tasks: "{{ item }}"
   with_first_found:
-    - package-install-{{ go_version }}.yml
-    - package-install-custom.yml
+    - fetch-package/fetch-package-{{ go_version }}.yml
+    - fetch-package/fetch-package-custom.yml

@@ -7,13 +7,13 @@
 
 - name: "Get the package version"
   set_fact:
-    package_version: "{{ item.ref.split('refs/tags/go')[1] }}"
-  when: item.ref | regex_search('refs/tags/go([0-9.]+)')
+    package_version: "{{ inner_item.ref.split('refs/tags/go')[1] }}"
+  when: inner_item.ref | regex_search('refs/tags/go([0-9.]+)')
   with_items: "{{ this.content }}"
   no_log: True
+  loop_control:
+    loop_var: inner_item
 
 - name: "Set the package name"
   set_fact:
     go_package_name: go{{ package_version }}.{{ go_os }}-{{ supported_arch[current_arch] }}.tar.gz
-
-- include_tasks: package-installation.yml

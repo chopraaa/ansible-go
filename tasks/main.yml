@@ -28,4 +28,8 @@
     go_os: linux
   when: ansible_os_family in ['Debian', 'RedHat']
 
-- include_tasks: "package-install.yml"
+- include_tasks: "fetch-package.yml"
+
+- include_tasks: "install-package.yml"
+
+- include_tasks: "add-to-path.yml"

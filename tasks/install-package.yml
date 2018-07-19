@@ -4,9 +4,21 @@
 
 - set_fact:
     go_tarball_checksum: "sha256:{{ lookup('url', go_tarball_url + '.sha256', validate_certs=False) }}"
+  register: go_tarball_checksum_result
 
 - name: Download the Go tarball
   get_url:
     url: "{{ go_tarball_url }}"
-    dest: ~/{{ go_package_name }}
+    dest: /tmp/{{ go_package_name }}
     checksum: "{{ go_tarball_checksum }}"
+
+- name: "Extract the Go tarball"
+  unarchive:
+    src: /tmp/{{ go_package_name }}
+    dest: /usr/local
+    remote_src: True
+
+- name: "Remote the Go tarball"
+  file:
+    path: /tmp/{{ go_package_name }}
+    state: absent
