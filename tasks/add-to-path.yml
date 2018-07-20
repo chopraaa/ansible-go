@@ -1,5 +1,5 @@
 ---
 - name: "Add the Go bin directory to the path"
   copy:
-    content: "PATH=$PATH:/usr/local/go/bin"
+    content: "export PATH=$PATH:/usr/local/go/bin"
     dest: "/etc/profile.d/go-path.sh"

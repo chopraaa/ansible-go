@@ -1,6 +1,7 @@
 ---
-- set_fact:
-    current_arch: "{{ hostvars[inventory_hostname].ansible_architecture }}"
+- fail:
+    msg: "ansible-go only works for latest go releases"
+  when: go_version != "latest"
 
 # Check if architecture of remote host is supported by ansible-go
 - name: "Check if role supports {{ current_arch }}"
@@ -28,8 +29,8 @@
     go_os: linux
   when: ansible_os_family in ['Debian', 'RedHat']
 
-- include_tasks: "fetch-package.yml"
+- include_tasks: fetch-package.yml
 
-- include_tasks: "install-package.yml"
+- include_tasks: install-package.yml
 
-- include_tasks: "add-to-path.yml"
+- include_tasks: add-to-path.yml
