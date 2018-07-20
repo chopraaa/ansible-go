@@ -4,30 +4,24 @@ ansible-go
 Ansible role for installing Go
 
 Currently supported:
-x86-64
-Linux
+x86-64, Linux
 
 Planned:
-x86
-Windows
+x86, Windows
 
-Role Variables
---------------
-
-- **`go_version`**:
-
-    stable (default)/latest/<specific>
+Supporting older releases is largely problematic as Google doesn't like to keep
+them [as we can see here](https://storage.googleapis.com/golang/).
 
 Example Playbook
 ----------------
 
-Including an example of how to use your role (for instance, with variables passed in as parameters) is always nice for users too:
+Currently, no additional variables are supported. The role will automatically
+detect the target distribution and architecture and install the latest version
+of Go
 
     - hosts: servers
       include_role:
         name: ansible-go
-      vars:
-        go_version: latest
 
 License
 -------
